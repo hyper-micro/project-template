@@ -1,0 +1,11 @@
+http:
+  addr: ":18100"
+  timeout: 30s
+  readTimeout: 30s
+  writeTimeout: 30s
+  shutdown: 5s
+  certFile: ""
+  keyFile: ""
+rpc:
+  addr: ":18110"
+  reflection: true
