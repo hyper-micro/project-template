@@ -1,4 +1,4 @@
-# Hyper Project Layout
+# Hyper Project Template
 
 ## Overview
 

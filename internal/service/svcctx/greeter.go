@@ -3,17 +3,17 @@ package svcctx
 import (
 	"context"
 
-	"github.com/hyper-micro/project-layout/internal/repository"
+	"github.com/hyper-micro/project-template/internal/repository"
 )
 
 type GreeterServiceCtx struct {
-	Ctx         context.Context
-	AccountRepo repository.AccountRepository
+	Ctx        context.Context
+	WaiterRepo repository.WaiterRepository
 }
 
-func NewGreeterServiceCtx(ctx context.Context, accountRepo repository.AccountRepository) *GreeterServiceCtx {
+func NewGreeterServiceCtx(ctx context.Context, waiterRepo repository.WaiterRepository) *GreeterServiceCtx {
 	return &GreeterServiceCtx{
-		Ctx:         ctx,
-		AccountRepo: accountRepo,
+		Ctx:        ctx,
+		WaiterRepo: waiterRepo,
 	}
 }

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/hyper-micro/hyper/server/web"
-	"github.com/hyper-micro/project-layout/internal/service"
+	"github.com/hyper-micro/project-template/internal/service"
 )
 
 type GreeterRestfulHandler struct {

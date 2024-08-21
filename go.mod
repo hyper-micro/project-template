@@ -1,4 +1,4 @@
-module github.com/hyper-micro/project-layout
+module github.com/hyper-micro/project-template
 
 go 1.22.0
 

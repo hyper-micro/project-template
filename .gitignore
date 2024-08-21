@@ -31,3 +31,6 @@ output
 # Generated code
 *.pb.*.go
 *.pb.go
+
+# Wire files
+wire_gen.go

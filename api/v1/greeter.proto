@@ -5,7 +5,7 @@ package greeter.v1;
 import "validate/validate.proto";
 
 message SayHelloRequest {
-  string say = 1 [(validate.rules).min_len.gt = 0];
+  int64 waiterId = 1 [(validate.rules).int64.gt = 0];
 }
 
 message SayHelloReply {

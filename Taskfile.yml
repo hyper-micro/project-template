@@ -4,14 +4,14 @@ version: '3'
 
 vars:
   SRC_PATH: '{{.USER_WORKING_DIR}}'
-  OUTPUT_BIN: 'project-layout'
+  OUTPUT_BIN: 'project-template'
   OUTPUT_PATH: '{{.USER_WORKING_DIR}}/output'
 
 tasks:
   gen:
     vars:
       PROTO_PATH: '{{.SRC_PATH}}/api'
-      PROTO_FILE: '{{.SRC_PATH}}/api/v1/greeter.proto {{.SRC_PATH}}/api/v2/greeter.proto'
+      PROTO_FILE: '{{.SRC_PATH}}/api/v1/greeter.proto'
 
     cmds:
       - | 

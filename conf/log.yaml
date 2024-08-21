@@ -1,0 +1,6 @@
+logger:
+  path: logs/app.log
+  level: info
+  rotatedSize:
+  retainDay:
+  retainFiles:

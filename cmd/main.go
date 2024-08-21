@@ -4,11 +4,12 @@ import (
 	"context"
 	"os"
 	"syscall"
+	"time"
 
 	"github.com/hyper-micro/hyper/config"
 	"github.com/hyper-micro/hyper/logger"
 	"github.com/hyper-micro/hyper/provider/server"
-	"github.com/hyper-micro/project-layout/cmd/wireinject"
+	"github.com/hyper-micro/project-template/cmd/wireinject"
 )
 
 var (
@@ -29,25 +30,26 @@ func run() error {
 	defer cancel()
 
 	srv, _, err := server.NewProvider(server.Option{
-		AppName:      appName,
-		Version:      version,
-		BuildCommit:  buildCommit,
-		BuildDate:    buildDate,
-		ShutdownSigs: []os.Signal{syscall.SIGTERM},
+		AppName:               appName,
+		Version:               version,
+		BuildCommit:           buildCommit,
+		BuildDate:             buildDate,
+		ShutdownSigs:          []os.Signal{syscall.SIGTERM, syscall.SIGINT},
+		ShutdownDelayDuration: 1 * time.Second,
 	})
 	if err != nil {
 		return err
 	}
 
-	if err := srv.RegServe(func(cfg config.Config) (server.App, server.CleanUpHandler, error) {
-		return wireinject.NewHttpServer(ctx, cfg)
-	}); err != nil {
-		return err
-	}
-
-	if err := srv.RegServe(func(cfg config.Config) (server.App, server.CleanUpHandler, error) {
-		return wireinject.NewRpcServer(ctx, cfg)
-	}); err != nil {
+	err = srv.RegServes(
+		func(cfg config.Config) (server.App, server.CleanUpHandler, error) {
+			return wireinject.NewHttpServer(ctx, cfg)
+		},
+		func(cfg config.Config) (server.App, server.CleanUpHandler, error) {
+			return wireinject.NewRpcServer(ctx, cfg)
+		},
+	)
+	if err != nil {
 		return err
 	}
 

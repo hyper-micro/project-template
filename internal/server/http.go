@@ -1,9 +1,13 @@
 package server
 
 import (
+	"github.com/google/wire"
 	"github.com/hyper-micro/hyper/config"
 	"github.com/hyper-micro/hyper/provider/http"
-	"github.com/hyper-micro/project-layout/internal/handler/restful"
+	"github.com/hyper-micro/project-template/internal/handler/restful"
+	"github.com/hyper-micro/project-template/internal/repository"
+	"github.com/hyper-micro/project-template/internal/service"
+	"github.com/hyper-micro/project-template/internal/service/svcctx"
 )
 
 type RestfulHandlerSet struct {
@@ -14,9 +18,18 @@ type HttpServer struct {
 	httpProvider http.Provider
 }
 
+var HttpServerWireInject = wire.NewSet(
+	repository.NewWaiterRepository,
+	svcctx.NewGreeterServiceCtx,
+	service.NewGreeterService,
+	restful.NewGreeterRestfulHandler,
+	wire.Struct(new(RestfulHandlerSet), "*"),
+	http.NewProvider,
+)
+
 func NewHttpServer(cfg config.Config, srv http.Provider, handlerSet *RestfulHandlerSet) *HttpServer {
 	r := srv.Into()
-	r.Get("/say-hello", handlerSet.Greeter.SayHello)
+	r.Get("/sayHello", handlerSet.Greeter.SayHello)
 
 	return &HttpServer{httpProvider: srv}
 }

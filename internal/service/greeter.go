@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hyper-micro/project-layout/internal/service/svcctx"
+	"github.com/hyper-micro/project-template/internal/service/svcctx"
 )
 
 type GreeterService interface {
@@ -22,12 +22,12 @@ func NewGreeterService(svcCtx *svcctx.GreeterServiceCtx) GreeterService {
 }
 
 func (s *greeterService) SayHello(ctx context.Context, userID int64) (string, error) {
-	userEntity, err := s.svcCtx.AccountRepo.GetUser(ctx, userID)
+	userEntity, err := s.svcCtx.WaiterRepo.Get(ctx, userID)
 	if err != nil {
 		return "", err
 	}
 
-	replyMessage := fmt.Sprintf("Hello, %s", userEntity.Name)
+	replyMessage := fmt.Sprintf("Hello, I'm %s, happy to serve you.", userEntity.Name)
 
 	return replyMessage, nil
 }

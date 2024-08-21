@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/hyper-micro/hyper/server/rpc"
-	greeter "github.com/hyper-micro/project-layout/api/v1"
-	"github.com/hyper-micro/project-layout/internal/service"
+	greeter "github.com/hyper-micro/project-template/api/v1"
+	"github.com/hyper-micro/project-template/internal/service"
 	"google.golang.org/grpc"
 )
 
@@ -31,7 +31,7 @@ func (srv *GreeterRpcServerHandler) SayHello(ctx context.Context, req *greeter.S
 	if err := req.Validate(); err != nil {
 		return nil, err
 	}
-	replyMessage, err := srv.greeterSvc.SayHello(ctx, req.GetUserId())
+	replyMessage, err := srv.greeterSvc.SayHello(ctx, req.GetWaiterId())
 	if err != nil {
 		return nil, err
 	}
