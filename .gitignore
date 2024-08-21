@@ -27,3 +27,7 @@ go.work
 # Debug
 logs
 output
+
+# Generated code
+*.pb.*.go
+*.pb.go
