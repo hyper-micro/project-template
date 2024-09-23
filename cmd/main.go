@@ -16,7 +16,7 @@ var (
 	buildDate   = "-"
 	buildCommit = "-"
 	version     = "v0.0.1"
-	appName     = "HyperApp"
+	appName     = "{{project-camel-name-upper}}"
 )
 
 func main() {
@@ -36,6 +36,7 @@ func run() error {
 		BuildDate:             buildDate,
 		ShutdownSigs:          []os.Signal{syscall.SIGTERM, syscall.SIGINT},
 		ShutdownDelayDuration: 1 * time.Second,
+		ConfigDefault:         "conf",
 	})
 	if err != nil {
 		return err

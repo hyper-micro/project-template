@@ -4,6 +4,7 @@ import (
 	"github.com/google/wire"
 	"github.com/hyper-micro/hyper/config"
 	"github.com/hyper-micro/hyper/provider/http"
+	"github.com/hyper-micro/hyper/server/web"
 	"github.com/hyper-micro/project-template/internal/handler/restful"
 	"github.com/hyper-micro/project-template/internal/repository"
 	"github.com/hyper-micro/project-template/internal/service"
@@ -18,13 +19,20 @@ type HttpServer struct {
 	httpProvider http.Provider
 }
 
+func NewHttpProvider(conf config.Config) http.Provider {
+	return http.NewProvider(
+		conf,
+		func(option *web.Option) {},
+	)
+}
+
 var HttpServerWireInject = wire.NewSet(
 	repository.NewWaiterRepository,
 	svcctx.NewGreeterServiceCtx,
 	service.NewGreeterService,
 	restful.NewGreeterRestfulHandler,
 	wire.Struct(new(RestfulHandlerSet), "*"),
-	http.NewProvider,
+	NewHttpProvider,
 )
 
 func NewHttpServer(cfg config.Config, srv http.Provider, handlerSet *RestfulHandlerSet) *HttpServer {

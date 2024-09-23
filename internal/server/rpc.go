@@ -4,6 +4,7 @@ import (
 	"github.com/google/wire"
 	"github.com/hyper-micro/hyper/config"
 	"github.com/hyper-micro/hyper/provider/rpc"
+	rpcServer "github.com/hyper-micro/hyper/server/rpc"
 	rpcHandler "github.com/hyper-micro/project-template/internal/handler/rpc"
 	"github.com/hyper-micro/project-template/internal/repository"
 	"github.com/hyper-micro/project-template/internal/service"
@@ -18,13 +19,25 @@ type RpcServer struct {
 	rpcProvider rpc.Provider
 }
 
+func NewRpcProvider(conf config.Config) rpc.Provider {
+	return rpc.NewProvider(
+		conf,
+		func(option *rpcServer.Option) {
+			option.ServiceOpts = append(
+				option.ServiceOpts,
+				//grpc.ChainUnaryInterceptor(middleware.TracerUnaryServerInterceptor()),
+			)
+		},
+	)
+}
+
 var RpcServerWireInject = wire.NewSet(
 	repository.NewWaiterRepository,
 	svcctx.NewGreeterServiceCtx,
 	service.NewGreeterService,
 	rpcHandler.NewGreeterRpcServerHandler,
 	wire.Struct(new(RpcHandlerSet), "*"),
-	rpc.NewProvider,
+	NewRpcProvider,
 )
 
 func NewRpcServer(conf config.Config, srv rpc.Provider, handlerSet *RpcHandlerSet) *RpcServer {

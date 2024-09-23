@@ -1,0 +1,15 @@
+syntax = "proto3";
+option go_package = "api/v1;{{project-camel-name}}";
+package {{project-camel-name}}.v1;
+
+import "validate/validate.proto";
+
+message {{project-camel-name-upper}}Request {
+}
+
+message {{project-camel-name-upper}}Reply {
+}
+
+service {{project-camel-name-upper}}Service {
+  rpc {{project-camel-name-upper}}({{project-camel-name-upper}}Request) returns ({{project-camel-name-upper}}Reply) {}
+}
