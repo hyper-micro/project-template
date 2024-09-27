@@ -16,7 +16,7 @@ var (
 	buildDate   = "-"
 	buildCommit = "-"
 	version     = "v0.0.1"
-	appName     = "{{project-camel-name-upper}}"
+	appName     = "ProjectTemplateService"
 )
 
 func main() {
@@ -43,11 +43,12 @@ func run() error {
 	}
 
 	err = srv.RegServes(
-		func(cfg config.Config) (server.App, server.CleanUpHandler, error) {
-			return wireinject.NewHttpServer(ctx, cfg)
-		},
-		func(cfg config.Config) (server.App, server.CleanUpHandler, error) {
-			return wireinject.NewRpcServer(ctx, cfg)
+		func(cfg config.Config) ([]server.App, server.CleanUpHandler, error) {
+			s, cleanUp, err := wireinject.NewServer(ctx, cfg)
+			return []server.App{
+				s.HttpServer,
+				s.RpcServer,
+			}, cleanUp, err
 		},
 	)
 	if err != nil {

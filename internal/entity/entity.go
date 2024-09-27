@@ -1,6 +1,6 @@
 package entity
 
-type Waiter struct {
+type Entity struct {
 	ID   int64
 	Name string
 }
